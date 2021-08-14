@@ -22,7 +22,7 @@ import org.springframework.validation.BindingResult;
 import java.util.List;
 
 @Controller
-@RequestMapping("/records")
+@RequestMapping("/record")
 public class RecordsController {
 
 	@Autowired
