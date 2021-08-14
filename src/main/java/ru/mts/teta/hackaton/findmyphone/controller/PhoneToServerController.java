@@ -10,6 +10,7 @@ import ru.mts.teta.hackaton.findmyphone.service.UserService;
 
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
@@ -52,5 +53,11 @@ public class PhoneToServerController {
     @ResponseStatus(HttpStatus.OK)
     public void pushOne(@RequestBody RecordDto recordDto) {
         recordService.saveRecord(recordDto);
+    }
+
+    @PostMapping(value = "/metrics/many", consumes = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public void pushMany(@RequestBody List<RecordDto> records) {
+        records.forEach(recordService::saveRecord);
     }
 }
