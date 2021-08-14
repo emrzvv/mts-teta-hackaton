@@ -1,11 +1,10 @@
 package ru.mts.teta.hackaton.findmyphone.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.mts.teta.hackaton.findmyphone.domain.dto.NewUserDto;
+import ru.mts.teta.hackaton.findmyphone.domain.dto.RecordDto;
+import ru.mts.teta.hackaton.findmyphone.service.RecordService;
 import ru.mts.teta.hackaton.findmyphone.service.UserService;
 
 import java.security.SecureRandom;
@@ -17,14 +16,17 @@ import java.util.concurrent.atomic.AtomicLong;
 public class PhoneToServerController {
     @Autowired
     private final UserService userService;
+    @Autowired
+    private final RecordService recordService;
 
     private static final SecureRandom secureRandom = new SecureRandom();
     private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder();
     private final AtomicLong identity = new AtomicLong();
 
     @Autowired
-    public PhoneToServerController(UserService userService) {
+    public PhoneToServerController(UserService userService, RecordService recordService) {
         this.userService = userService;
+        this.recordService = recordService;
     }
 
     private static String generateNewToken() {
@@ -43,5 +45,10 @@ public class PhoneToServerController {
                 newUser.getDeviceId()
         );
         return token;
+    }
+
+    @PostMapping(value = "/metrics/one", consumes = "application/json")
+    public void pushOne(@RequestBody RecordDto recordDto) {
+        recordService.saveRecord(recordDto);
     }
 }

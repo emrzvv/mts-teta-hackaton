@@ -29,4 +29,8 @@ public class RecordService {
     	*/
     	return ConverterRecordDto.fromEntitiesToDtos(recordRepository.findAll());
     }
+
+    public void saveRecord(RecordDto recordDto) {
+		recordRepository.save(ConverterRecordDto.fromDtoToEntity(recordDto));
+	}
 }
