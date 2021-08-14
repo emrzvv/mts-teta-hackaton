@@ -40,6 +40,9 @@ public class Record {
     private Double longtitude;
 
     @Column
+    private Long cellId;
+
+    @Column
     private Long lac;
 
     @Column

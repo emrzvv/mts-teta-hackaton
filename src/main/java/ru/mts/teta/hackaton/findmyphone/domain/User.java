@@ -32,9 +32,6 @@ public class User {
     private String token;
 
     @Column
-    private Long cellId;
-
-    @Column
     private String deviceId;
 
     @Override
