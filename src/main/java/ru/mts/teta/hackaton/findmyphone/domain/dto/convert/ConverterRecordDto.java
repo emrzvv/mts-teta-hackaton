@@ -21,6 +21,13 @@ public class ConverterRecordDto {
 		entity.setId(dto.getId());
 		entity.setFromToken(dto.getFromToken());
 		entity.setDate(dto.getDate());
+		entity.setCellId(dto.getCellId());
+		entity.setLac(dto.getLac());
+		entity.setLatitude(dto.getLatitude());
+		entity.setLongitude(dto.getLongitude());
+		entity.setRsrp(dto.getRsrp());
+		entity.setRsrq(dto.getRsrq());
+		entity.setSinr(dto.getSinr());
 		return entity;
 	}
 
