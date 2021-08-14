@@ -18,6 +18,7 @@ public class GetController {
 
     private static final LocalDateTime minTime = LocalDateTime.of(0, 1, 1, 0, 0, 0, 1);
     private static final LocalDateTime maxTime = LocalDateTime.of(9999, 12, 31, 23, 59, 59, 59);
+    private static final String timeFormat = "yyyy-MM-dd'T'HH:mm:ss";
 
     @Autowired
     public GetController(RecordService recordService) {
@@ -27,15 +28,14 @@ public class GetController {
     @GetMapping("/{token}/last_record")
     @ResponseBody
     public RecordDto getLastRecord(@PathVariable("token") String token) throws Exception {
-        RecordDto rdto = recordService.getLastRecord(token);
-        return rdto;
+        return recordService.getLastRecord(token);
     }
 
     @GetMapping("/{token}/records")
     @ResponseBody
     public List<RecordDto> getRecords(@PathVariable("token") String token, //
-                                      @RequestParam(value = "time_begin", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")  LocalDateTime timeBegin,
-                                      @RequestParam(value = "time_end", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime timeEnd) {
+                                      @RequestParam(value = "time_begin", required = false) @DateTimeFormat(pattern = timeFormat)  LocalDateTime timeBegin,
+                                      @RequestParam(value = "time_end", required = false) @DateTimeFormat(pattern = timeFormat) LocalDateTime timeEnd) {
         if (timeBegin == null) {
             timeBegin = minTime;
         }
