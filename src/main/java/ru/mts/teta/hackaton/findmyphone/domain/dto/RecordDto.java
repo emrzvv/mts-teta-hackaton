@@ -19,7 +19,7 @@ public class RecordDto {
 
     private Double latitude;
 
-    private Double longtitude;
+    private Double longitude;
     
     private Long cellId;
 

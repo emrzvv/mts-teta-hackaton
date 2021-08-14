@@ -37,7 +37,7 @@ public class Record {
     private Double latitude;
 
     @Column
-    private Double longtitude;
+    private Double longitude;
 
     @Column
     private Long cellId;

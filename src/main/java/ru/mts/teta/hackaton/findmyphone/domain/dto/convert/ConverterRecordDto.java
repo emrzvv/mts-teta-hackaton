@@ -24,7 +24,7 @@ public class ConverterRecordDto {
 		entity.setCellId(dto.getCellId());
 		entity.setLac(dto.getLac());
 		entity.setLatitude(dto.getLatitude());
-		entity.setLongtitude(dto.getLongtitude());
+		entity.setLongitude(dto.getLongitude());
 		entity.setRsrp(dto.getRsrp());
 		entity.setRsrq(dto.getRsrq());
 		entity.setSinr(dto.getSinr());
