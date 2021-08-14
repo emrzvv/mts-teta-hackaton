@@ -13,7 +13,7 @@ public class RecordDto {
 
     private Long id;
 
-    private Long fromToken;
+    private String fromToken;
 
     private LocalDateTime date;
 

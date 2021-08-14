@@ -28,7 +28,7 @@ public class Record {
     private Long id;
 
     @Column
-    private Long fromToken;
+    private String fromToken;
 
     @Column
     private LocalDateTime date;

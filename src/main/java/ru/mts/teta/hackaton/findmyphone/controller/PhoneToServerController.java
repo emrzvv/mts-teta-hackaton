@@ -1,6 +1,7 @@
 package ru.mts.teta.hackaton.findmyphone.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.mts.teta.hackaton.findmyphone.domain.dto.NewUserDto;
 import ru.mts.teta.hackaton.findmyphone.domain.dto.RecordDto;
@@ -48,6 +49,7 @@ public class PhoneToServerController {
     }
 
     @PostMapping(value = "/metrics/one", consumes = "application/json")
+    @ResponseStatus(HttpStatus.OK)
     public void pushOne(@RequestBody RecordDto recordDto) {
         recordService.saveRecord(recordDto);
     }
