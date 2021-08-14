@@ -1,0 +1,27 @@
+<DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta lang="ru">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" th:href="@{/sourcecss.css}">
+</head>
+<body>
+  <table>
+    <thead>
+      <td>№</td>
+      <td>ID</td>
+      <td>User</td>
+      <td>Date</td>
+    </thead>
+
+    <tr th:unless="${records.empty}" th:each="record,stats : ${records}">
+      <td th:text="${stats.index + 1}">Номер записи</td>
+      <td th:text="${record.id}">ID записи</td>
+      <td th:text="${#strings.substring(record.fromToken, 0, 5)}">Токен</td>
+      <td th:text="${record.date}">Дата записи</td>
+    </tr>
+  </table>
+</body>
+</html>
