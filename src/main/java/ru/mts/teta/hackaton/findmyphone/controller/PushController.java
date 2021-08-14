@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @RequestMapping("/push")
-public class PhoneToServerController {
+public class PushController {
     @Autowired
     private final UserService userService;
     @Autowired
@@ -26,7 +26,7 @@ public class PhoneToServerController {
     private final AtomicLong identity = new AtomicLong();
 
     @Autowired
-    public PhoneToServerController(UserService userService, RecordService recordService) {
+    public PushController(UserService userService, RecordService recordService) {
         this.userService = userService;
         this.recordService = recordService;
     }

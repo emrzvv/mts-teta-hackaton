@@ -7,8 +7,6 @@ import ru.mts.teta.hackaton.findmyphone.domain.dto.convert.ConverterRecordDto;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.Optional;
 
 @Component
 public class RecordService {
@@ -32,5 +30,10 @@ public class RecordService {
 
     public void saveRecord(RecordDto recordDto) {
 		recordRepository.save(ConverterRecordDto.fromDtoToEntity(recordDto));
+	}
+
+	public RecordDto getLastRecord(String token) throws Exception {
+		return ConverterRecordDto.fromEntityToDto(
+				recordRepository.getLastRecord(token).orElseThrow(() -> new Exception("No such data for this token")));
 	}
 }
