@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/record")
@@ -35,6 +36,8 @@ public class RecordsController {
 		}
 		List<RecordDto> records = recordService.getRecordsBySearchString(searchString);
 		model.addAttribute("records", records);
+		model.addAttribute("pages", List.of("1", "2", "...", "55", "56"));
+		model.addAttribute("s", searchString);
 		return "records_list";
 	}
 }
