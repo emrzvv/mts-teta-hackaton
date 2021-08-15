@@ -39,13 +39,13 @@ public class PushController {
     }
 
     @PostMapping(value = "/new_child")
-    public String generateNewChild(@RequestBody NewUserDto newUser) {
+    public String generateNewChild(@RequestBody String deviceId) {
         String token = generateNewToken();
         userService.saveUser(
                 identity.incrementAndGet(),
                 false,
                 token,
-                newUser.getDeviceId()
+                deviceId
         );
         return token;
     }
