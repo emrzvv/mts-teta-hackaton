@@ -18,7 +18,9 @@
 </head>
 <body>
 <div class="content">
-    <input type="hidden" th:each="m, iter : ${metrics}" th:id="${iter.index}" th:value="${m.getLatitude() + ' ' + m.getLongitude()}">
+    <input type="hidden" th:each="m, iter : ${metrics}" th:id="${iter.index}" th:value="${m.getLatitude() + ' '
+    + m.getLongitude() + ' ' + m.getDate() + ' ' + m.getCellId() + ' ' + m.getLac() + ' ' + m.getRsrp() + ' '
+    + m.getRsrq() + ' ' + m.getSinr()}">
     <div id="map">
 
     </div>
@@ -30,9 +32,9 @@
     var gps = []
 
     for (let i = 0; i < [[${gps_amount}]]; i++) {
-        var gps_string = document.getElementById(i.toString()).value
-        var gps_string_array = gps_string.split(" ")
-        gps[i] = [parseFloat(gps_string_array[1]), parseFloat(gps_string_array[0])]
+        var data_string = document.getElementById(i.toString()).value
+        var data_string_array = data_string.split(" ")
+        gps[i] = [parseFloat(data_string_array[1]), parseFloat(data_string_array[0])]
         console.log(gps[i])
     }
 
@@ -44,7 +46,11 @@
     });
 
     for (let i = 0; i < [[${gps_amount}]]; i++) {
-        const marker = new mapboxgl.Marker().setLngLat(gps[i]).addTo(map)
+        var text = document.getElementById(i.toString()).value.split(" ")
+        const popup = new mapboxgl.Popup({offset: 50}).setMaxWidth('100').setText(
+            text
+        )
+        const marker = new mapboxgl.Marker().setLngLat(gps[i]).setPopup(popup).addTo(map)
     }
 
 
