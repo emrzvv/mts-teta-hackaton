@@ -2,6 +2,7 @@ package ru.mts.teta.hackaton.findmyphone.service;
 
 import ru.mts.teta.hackaton.findmyphone.dao.RecordRepository;
 import ru.mts.teta.hackaton.findmyphone.domain.dto.RecordDto;
+import ru.mts.teta.hackaton.findmyphone.domain.Record;
 import ru.mts.teta.hackaton.findmyphone.domain.dto.convert.ConverterRecordDto;
 
 import org.springframework.stereotype.Component;
@@ -19,14 +20,19 @@ public class RecordService {
         this.recordRepository = recordRepository;
     }
 
-    public List<RecordDto> getRecordsBySearchString(String searchString) {
+    public List<RecordDto> getRecordsBySearchString(String searchString, Long page) {
     	if (searchString.equals("")) {
-    		return ConverterRecordDto.fromEntitiesToDtos(recordRepository.findAll());
+            List<Record> records = recordRepository.findAll();
+            page = Long.valueOf(records.size());
+    		return ConverterRecordDto.fromEntitiesToDtos(records);
     	}
 
     	/*
     	Заглушка
     	*/
-    	return ConverterRecordDto.fromEntitiesToDtos(recordRepository.findAll());
+
+        List<Record> records = recordRepository.findAll();
+        page = Long.valueOf(records.size());
+    	return ConverterRecordDto.fromEntitiesToDtos(records);
     }
 }
