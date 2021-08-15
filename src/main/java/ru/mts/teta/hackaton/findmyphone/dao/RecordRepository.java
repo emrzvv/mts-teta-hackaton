@@ -25,4 +25,29 @@ public interface RecordRepository extends PagingAndSortingRepository<Record, Lon
     List<Record> getByTimeInterval(@Param("token") String token,
                                    @Param("timeBegin") LocalDateTime timeBegin,
                                    @Param("timeEnd") LocalDateTime timeEnd);
+
+    @Query("SELECT r FROM Record r WHERE r.fromToken = :token")
+    List<Record> findAllByToken(@Param("token") String token);
+
+    @Query("SELECT r FROM Record r WHERE " +
+            ":timeBegin <= r.recordDate AND r.recordDate <= :timeEnd")
+    List<Record> findAllByTimeInterval(@Param("timeBegin") LocalDateTime timeBegin,
+                                        @Param("timeEnd") LocalDateTime timeEnd);
+
+
+    @Query("SELECT r FROM Record r WHERE r.fromToken = :token " +
+            "AND :timeBegin <= r.recordDate")
+    List<Record> findAllByTokenSince(@Param("token") String token,
+                                   @Param("timeBegin") LocalDateTime timeBegin);
+
+    @Query("SELECT r FROM Record r WHERE r.fromToken = :token " +
+            "AND r.recordDate <= :timeEnd")
+    List<Record> findAllByTokenBefore(@Param("token") String token,
+                                    @Param("timeEnd") LocalDateTime timeEnd);
+
+    @Query("SELECT r FROM Record r WHERE :timeBegin <= r.recordDate")
+    List<Record> findAllSince(@Param("timeBegin") LocalDateTime timeBegin);
+
+    @Query("SELECT r FROM Record r WHERE r.recordDate <= :timeEnd")
+    List<Record> findAllBefore(@Param("timeEnd") LocalDateTime timeEnd);
 }
