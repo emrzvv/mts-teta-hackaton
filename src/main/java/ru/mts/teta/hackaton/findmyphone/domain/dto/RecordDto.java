@@ -13,13 +13,13 @@ public class RecordDto {
 
     private Long id;
 
-    private Long fromToken;
+    private String fromToken;
 
     private LocalDateTime date;
 
     private Double latitude;
 
-    private Double longtitude;
+    private Double longitude;
     
     private Long cellId;
 

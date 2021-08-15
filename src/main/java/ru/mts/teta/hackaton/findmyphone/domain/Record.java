@@ -28,7 +28,7 @@ public class Record {
     private Long id;
 
     @Column
-    private Long fromToken;
+    private String fromToken;
 
     @Column
     private LocalDateTime date;
@@ -37,7 +37,7 @@ public class Record {
     private Double latitude;
 
     @Column
-    private Double longtitude;
+    private Double longitude;
 
     @Column
     private Long cellId;
