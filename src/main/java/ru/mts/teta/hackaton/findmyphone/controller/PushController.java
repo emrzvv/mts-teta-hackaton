@@ -24,6 +24,7 @@ public class PushController {
     private static final SecureRandom secureRandom = new SecureRandom();
     private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder();
     private final AtomicLong identity = new AtomicLong();
+    private final AtomicLong recordIdentity = new AtomicLong();
 
     @Autowired
     public PushController(UserService userService, RecordService recordService) {
@@ -37,7 +38,7 @@ public class PushController {
         return base64Encoder.encodeToString(randomBytes);
     }
 
-    @PostMapping(value = "/new_child", consumes = "application/json")
+    @PostMapping(value = "/new_child")
     public String generateNewChild(@RequestBody NewUserDto newUser) {
         String token = generateNewToken();
         userService.saveUser(
@@ -52,6 +53,7 @@ public class PushController {
     @PostMapping(value = "/metrics/one", consumes = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public void pushOne(@RequestBody RecordDto recordDto) {
+        recordDto.setId(recordIdentity.incrementAndGet());
         recordService.saveRecord(recordDto);
     }
 
