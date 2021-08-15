@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Карта</title>
+    <meta charset="utf-8">
+    <meta lang="ru">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" th:href="@{/sourcecss.css}">
+
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.4.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.4.0/mapbox-gl.js"></script>
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    </style>
+
+</head>
+<body>
+<div class="content">
+    <input type="hidden" th:each="m, iter : ${metrics}" th:id="${iter.index}" th:value="${m.getLatitude() + ' ' + m.getLongitude()}">
+    <div id="map">
+
+    </div>
+</div>
+
+<script th:inline="javascript">
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZW1yenZ2IiwiYSI6ImNrc2NzajB0MTBqeGUydm9kYjM2bW44aWkifQ.Xn2MsMSTdummM6DPSY4DPA';
+
+    var gps = []
+
+    for (let i = 0; i < [[${gps_amount}]]; i++) {
+        var gps_string = document.getElementById(i.toString()).value
+        var gps_string_array = gps_string.split(" ")
+        gps[i] = [parseFloat(gps_string_array[0]), parseFloat(gps_string_array[1])]
+    }
+
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: gps[0],
+        zoom: 15
+    });
+
+    for (let i = 0; i < [[${gps_amount}]]; i++) {
+        const marker = new mapboxgl.Marker().setLngLat(gps[i]).addTo(map)
+    }
+
+
+    map.on('load', () => {
+        map.addSource('route', {
+            'type': 'geojson',
+            'data': {
+                'type': 'Feature',
+                'properties': {},
+                'geometry': {
+                    'type': 'LineString',
+                    'coordinates': gps
+                }
+            }
+        });
+        map.addLayer({
+            'id': 'route',
+            'type': 'line',
+            'source': 'route',
+            'layout': {
+                'line-join': 'round',
+                'line-cap': 'round'
+            },
+            'paint': {
+                'line-color': '#888',
+                'line-width': 4
+            }
+        });
+    });
+</script>
+</body>
+</html>
