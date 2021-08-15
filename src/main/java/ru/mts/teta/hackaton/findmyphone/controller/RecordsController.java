@@ -65,7 +65,9 @@ public class RecordsController {
 			searchString = "";
 		}
 		if (page == null) {
-			page = 1L;
+			page = 0L;
+		} else {
+			page--;
 		}
 		Long openedPage = page;
 		List<RecordDto> records = recordService.getRecordsBySearchString(searchString, page);
@@ -77,7 +79,7 @@ public class RecordsController {
 			throw new WrongPageNumberException();
 		}
 		model.addAttribute("records", records);
-		model.addAttribute("pages", this.getPagesNumbering(openedPage, page));
+		model.addAttribute("pages", this.getPagesNumbering(openedPage+1, page));
 		model.addAttribute("s", searchString);
 		return "records_list";
 	}

@@ -14,15 +14,23 @@
       <thead>
         <td scope="col">№</td>
         <td scope="col">ID</td>
-        <td scope="col">User</td>
-        <td scope="col">Date</td>
+        <td scope="col">Токен</td>
+        <td scope="col">Записано</td>
+        <td scope="col">Отправлено</td>
+        <td scope="col">Долгота</td>
+        <td scope="col">Широта</td>
+        <td scope="col"></td>
       </thead>
 
       <tr th:unless="${records.empty}" th:each="record,stats : ${records}">
         <td class="align-middle" scope="row" th:text="${stats.index + 1}">Номер записи</td>
         <td class="align-right" th:text="${record.id}">ID записи</td>
-        <td class="align-right" th:text="${#strings.substring(record.fromToken, 0, 5)}">Токен</td>
-        <td class="align-right" th:text="${record.date}">Дата записи</td>
+        <td class="align-right" th:text="${#strings.substring(record.fromToken, 0, 7)}">Токен</td>
+        <td class="align-right" th:text="${record.date}">Записано</td>
+        <td class="align-right" th:text="${record.addedDate}">Отправлено</td>
+        <td class="align-right" th:text="${record.longitude}">Долгота</td>
+        <td class="align-right" th:text="${record.latitude}">Широта</td>
+        <td scope="col"><a class="link-light" th:href="@{/record/{recordId}(recordId = ${record.id})}">Подробнее</a></td>
       </tr>
     </table>
     </div>

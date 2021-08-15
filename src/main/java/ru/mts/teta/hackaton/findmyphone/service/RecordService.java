@@ -7,9 +7,13 @@ import ru.mts.teta.hackaton.findmyphone.domain.dto.convert.ConverterRecordDto;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.ArrayList;
 
 @Component
 public class RecordService {
@@ -21,23 +25,32 @@ public class RecordService {
     }
 
     public List<RecordDto> getRecordsBySearchString(String searchString, Long page) {
+    	Pageable paging = PageRequest.of(page.intValue(), 100);
+    	Page<Record> records = null;
     	if (searchString.equals("")) {
-            List<Record> records = recordRepository.findAll();
-            page = Long.valueOf(records.size());
-    		return ConverterRecordDto.fromEntitiesToDtos(records);
+            records = recordRepository.findAll(paging);
+    	} else {
+	    	/*
+	    	Заглушка
+	    	*/
+	        records = recordRepository.findAll(paging);
+
     	}
 
-    	/*
-    	Заглушка
-    	*/
-
-        List<Record> records = recordRepository.findAll();
-        page = Long.valueOf(records.size());
-    	return ConverterRecordDto.fromEntitiesToDtos(records);
+    	if(records.hasContent()) {
+    		List<Record> recordsList = records.getContent();
+    		page = Long.valueOf(records.getTotalPages());
+            return ConverterRecordDto.fromEntitiesToDtos(recordsList);
+        }
+        page = 0L;
+        return new ArrayList<RecordDto>();
     }
 
     public void saveRecord(RecordDto recordDto) {
-		recordRepository.save(ConverterRecordDto.fromDtoToEntity(recordDto));
+    	Record record = ConverterRecordDto.fromDtoToEntity(recordDto);
+    	LocalDateTime timeNow = LocalDateTime.now().withNano(0);
+    	record.setAddedDate(timeNow);
+		recordRepository.save(record);
 	}
 
 	public RecordDto getLastRecord(String token) throws Exception {
