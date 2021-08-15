@@ -32,7 +32,7 @@
     for (let i = 0; i < [[${gps_amount}]]; i++) {
         var gps_string = document.getElementById(i.toString()).value
         var gps_string_array = gps_string.split(" ")
-        gps[i] = [parseFloat(gps_string_array[0]), parseFloat(gps_string_array[1])]
+        gps[i] = [parseFloat(gps_string_array[1]), parseFloat(gps_string_array[0])]
         console.log(gps[i])
     }
 
