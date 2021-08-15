@@ -5,23 +5,39 @@
   <meta lang="ru">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <link type="text/css" rel="stylesheet" th:href="@{/sourcecss.css}">
+  <link type="text/css" rel="stylesheet" th:href="@{/style.css}">
 </head>
-<body>
-  <table>
-    <thead>
-      <td>№</td>
-      <td>ID</td>
-      <td>User</td>
-      <td>Date</td>
-    </thead>
+<body class="bg-dark">
+  <div class="d-flex justify-content-center flex-column align-items-center">
+    <div style="display:block">
+    <table class="table table-dark table-striped table-hover">
+      <thead>
+        <td scope="col">№</td>
+        <td scope="col">ID</td>
+        <td scope="col">User</td>
+        <td scope="col">Date</td>
+      </thead>
 
-    <tr th:unless="${records.empty}" th:each="record,stats : ${records}">
-      <td th:text="${stats.index + 1}">Номер записи</td>
-      <td th:text="${record.id}">ID записи</td>
-      <td th:text="${#strings.substring(record.fromToken, 0, 5)}">Токен</td>
-      <td th:text="${record.date}">Дата записи</td>
-    </tr>
-  </table>
+      <tr th:unless="${records.empty}" th:each="record,stats : ${records}">
+        <td class="align-middle" scope="row" th:text="${stats.index + 1}">Номер записи</td>
+        <td class="align-right" th:text="${record.id}">ID записи</td>
+        <td class="align-right" th:text="${#strings.substring(record.fromToken, 0, 5)}">Токен</td>
+        <td class="align-right" th:text="${record.date}">Дата записи</td>
+      </tr>
+    </table>
+    </div>
+
+    <div>
+    <nav th:unless="${pages.empty}">
+      <ul class="pagination">
+        <li class="page-item" th:each="page,stats : ${pages}">
+          <a th:unless="${#strings.equals(page, '...')}" class="page-link" th:href="@{/record?s={searchString}&page={pageNum}(searchString = ${searchString}, pageNum = ${page})}"
+          th:text="${page}">Номер страницы</a>
+          <a th:if="${#strings.equals(page, '...')}" class="page-link disabled" th:href="@{/record}">...</a>
+        </li>
+      </ul>
+    </nav>
+    </div>
+  </div>
 </body>
 </html>
