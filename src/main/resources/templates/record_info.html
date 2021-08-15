@@ -1,0 +1,59 @@
+<DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta lang="ru">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body class="bg-dark">
+  <div class="d-flex justify-content-center flex-column align-items-center">
+    <div style="display:block">
+    <h2 style="color:white">Информация о записи</h2>
+    <table class="table table-dark table-striped table-hover">
+      <tr>
+        <td class="align-right">ID</td>
+        <td class="align-left" th:text="${record.id}">ID записи</td>
+      </tr>
+      <tr>
+        <td class="align-right">Токен</td>
+        <td class="align-left" th:text="${record.fromToken}">Токен</td>
+      </tr>
+      <tr>
+        <td class="align-right">Записано</td>
+        <td class="align-left" th:text="${record.date}">Записано</td>
+      </tr>
+      <tr>
+        <td class="align-right">Отправлено</td>
+        <td class="align-left" th:text="${record.addedDate}">Отправлено</td>
+      </tr>
+      <tr>
+        <td class="align-right">Долгота</td>
+        <td class="align-left" th:text="${record.longitude}">Долгота</td>
+      </tr>
+      <tr>
+        <td class="align-right">Широта</td>
+        <td class="align-left" th:text="${record.latitude}">Широта</td>
+      </tr>
+      <tr>
+        <td class="align-right">LAC</td>
+        <td class="align-left" th:text="${record.lac}">LAC</td>
+      </tr>
+      <tr>
+        <td class="align-right">RSRP</td>
+        <td class="align-left" th:text="${record.rsrp}">RSRP</td>
+      </tr>
+      <tr>
+        <td class="align-right">RSRQ</td>
+        <td class="align-left" th:text="${record.rsrq}">RSRQ</td>
+      </tr>
+      <tr>
+        <td class="align-right">SINR</td>
+        <td class="align-left" th:text="${record.sinr}">SINR</td>
+      </tr>
+    </table>
+    </div>
+  </div>
+</body>
+</html>

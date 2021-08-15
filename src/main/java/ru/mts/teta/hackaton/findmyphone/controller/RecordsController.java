@@ -7,6 +7,7 @@ import ru.mts.teta.hackaton.findmyphone.config.Constants;
 import ru.mts.teta.hackaton.findmyphone.exceptions.WrongPageNumberException;
 import ru.mts.teta.hackaton.findmyphone.service.RecordService;
 import ru.mts.teta.hackaton.findmyphone.domain.dto.RecordDto;
+import ru.mts.teta.hackaton.findmyphone.domain.RecordsPage;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class RecordsController {
 	@Autowired
 	RecordService recordService;
 
-	private List<String> getPagesNumbering(Long openedPage, Long totalPages) {
+	private List<String> getPagesNumbering(int openedPage, int totalPages) {
 		ArrayList<String> pages = new ArrayList<String>();
 		if (openedPage == 1) {
 			pages.add("1");
@@ -52,7 +53,7 @@ public class RecordsController {
 			pages.add("1");
 			pages.add("...");
 		}
-		for (long i=openedPage-1; i < Math.min(totalPages.longValue(), openedPage.longValue()+1); ++i) {
+		for (int i=openedPage-1; i <= Math.min(totalPages, openedPage+1); ++i) {
 			pages.add(String.valueOf(i));
 		}
 		if (openedPage + 1 < totalPages) {
@@ -65,29 +66,39 @@ public class RecordsController {
 	@GetMapping
 	public String getRecordsList(Model model,
 							@RequestParam(name="s", required=false) String searchString,
-							@RequestParam(name="page", required=false) Long page)
+							@RequestParam(name="page", required=false) Integer openedPage)
 							throws WrongPageNumberException {
 		if (searchString == null) {
 			searchString = "";
 		}
-		if (page == null) {
-			page = 0L;
+		if (openedPage == null) {
+			openedPage = 0;
 		} else {
-			page--;
+			openedPage--;
 		}
-		Long openedPage = page;
-		List<RecordDto> records = recordService.getRecordsBySearchString(searchString, page);
-		if (page.longValue() != 0)
-			page = Long.valueOf(page.longValue() / 100 + (page.longValue() % 100 != 0 ? 1 : 0));
-		else 
-			page = 1L;
-		if (openedPage > page) {
+		System.out.println(searchString);
+		RecordsPage recordsPage = recordService.getRecordsBySearchString(searchString, openedPage);
+		List<RecordDto> records = recordsPage.getRecords();
+		int totalPages = recordsPage.getTotalPages();
+		if (totalPages != 0 && openedPage > totalPages-1) {
 			throw new WrongPageNumberException();
 		}
-		model.addAttribute("records", records);
-		model.addAttribute("pages", this.getPagesNumbering(openedPage+1, page));
+		if (totalPages != 0) {
+			model.addAttribute("records", records);
+		} else {
+			model.addAttribute("records", List.of());
+		}
+		model.addAttribute("pages", this.getPagesNumbering(openedPage.intValue()+1, totalPages));
 		model.addAttribute("s", searchString);
 		return "records_list";
+	}
+
+	@GetMapping("/{recordId}")
+	public String getRecord(Model model,
+							@PathVariable("recordId") Long recordId) throws Exception{
+		RecordDto recordDto = recordService.findById(recordId);
+		model.addAttribute("record", recordDto);
+		return "record_info";
 	}
 
 	@GetMapping("/map/{token}")
