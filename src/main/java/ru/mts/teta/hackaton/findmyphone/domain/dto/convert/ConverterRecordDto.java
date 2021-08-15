@@ -12,7 +12,8 @@ public class ConverterRecordDto {
 		RecordDto dto = new RecordDto();
 		dto.setId(entity.getId());
 		dto.setFromToken(entity.getFromToken());
-		dto.setDate(entity.getDate());
+		dto.setAddedDate(entity.getAddedDate());
+		dto.setDate(entity.getRecordDate());
 		dto.setCellId(entity.getCellId());
 		dto.setLac(entity.getLac());
 		dto.setLatitude(entity.getLatitude());
@@ -27,7 +28,8 @@ public class ConverterRecordDto {
 		Record entity = new Record();
 		entity.setId(dto.getId());
 		entity.setFromToken(dto.getFromToken());
-		entity.setDate(dto.getDate());
+		entity.setAddedDate(dto.getAddedDate());
+		entity.setRecordDate(dto.getDate());
 		entity.setCellId(dto.getCellId());
 		entity.setLac(dto.getLac());
 		entity.setLatitude(dto.getLatitude());

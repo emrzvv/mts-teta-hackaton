@@ -31,7 +31,10 @@ public class Record {
     private String fromToken;
 
     @Column
-    private LocalDateTime date;
+    private LocalDateTime addedDate;
+
+    @Column
+    private LocalDateTime recordDate;
 
     @Column
     private Double latitude;

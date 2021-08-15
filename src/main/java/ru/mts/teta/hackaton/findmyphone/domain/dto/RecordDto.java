@@ -17,6 +17,8 @@ public class RecordDto {
 
     private LocalDateTime date;
 
+    private LocalDateTime addedDate;
+
     private Double latitude;
 
     private Double longitude;
